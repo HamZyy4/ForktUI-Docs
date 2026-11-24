@@ -9,7 +9,6 @@ const basePath = isGithubPages ? `/${repo}` : '';
 const config = {
   output: 'export',
   basePath,
-  assetPrefix: basePath ? `${basePath}/` : undefined,
   trailingSlash: true,
   reactStrictMode: true,
   images: {
