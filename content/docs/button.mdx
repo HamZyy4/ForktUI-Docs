@@ -1,90 +1,42 @@
 ---
 title: Button
-description: Creating Button and Editing it
-icon: SquareMousePointer
+description: Trigger an action when the user presses a control.
+icon: MousePointerClick
 ---
 
-import { TypeTable } from 'fumadocs-ui/components/type-table';
+## Basic button
 
-## Creating Button 
-
-```luau tab="Default"
+```luau
 local Button = Tab:Button({
-    Title = "Button",
-    Desc = "Test Button",
+    Title = "Run action",
+    Desc = "Execute the selected operation.",
     Locked = false,
     Callback = function()
-        -- ...
-    end
+        print("Button pressed")
+    end,
 })
 ```
 
-```luau tab="Advanced"
-local Button = Tab:Button({
-    Title = "Advanced Button",
-    Color = Color3.fromHex("#a2ff30"), -- paint the button
-    Justify = "Center", -- align items in the center (Center or Between or Left or Right)
-    IconAlign = "Left", -- Left or Right of the text
-    Icon = "", -- removing icon
+## Layout and color
+
+```luau
+Tab:Button({
+    Title = "Centered action",
+    Color = Color3.fromHex("#a1a1aa"),
+    Justify = "Center", -- Center, Between, Left, or Right
+    IconAlign = "Left", -- Left or Right
     Callback = function()
-        -- ...
-    end
+        print("Clicked")
+    end,
 })
 ```
 
-### Set Title
-    ```luau
-    Button:SetTitle("Title Example")
-    ```
+## Update or remove a button
 
-### Set Description
-    ```luau
-    Button:SetDesc("Description Example")
-    ```
-
-### Lock Element
-    ```luau
-    Button:Lock()
-    ```
-
-### Unlock Element
-    ```luau
-    Button:Unlock()
-    ```
-
-### Destroy Element
-    ```luau
-    Button:Destroy()
-    ```
-
-<hr/>
-
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-
-
-<Accordion type="single"  collapsible>
-    <AccordionItem value="item-1">
-        <AccordionTrigger>API</AccordionTrigger>
-        <AccordionContent>
-            ## Button Options
-            
-            <TypeTable
-              type={{
-                Title:         { type: 'string',   required: true,  description: 'Title of the Button.',       default: "Button" },
-                Desc:          { type: 'string',   required: false, description: 'Description of the Button.', default: "nil" },
-                Color:         { type: 'Color3',   required: false, description: 'Button Color',               default: "nil" },
-                Justify:       { type: 'string',   required: false, description: 'Items horizontal align',     default: "Between" },
-                IconAlign:     { type: 'string',   required: false, description: 'Icon align',                 default: "Right" },
-                Locked:        { type: 'boolean',  required: false, description: 'Locks the Element',          default: "false" },
-                Callback:      { type: 'function', required: false, description: 'Callback of the Button',     default: "nil" },
-              }}
-            />
-        </AccordionContent>
-    </AccordionItem>
-</Accordion>
+```luau
+Button:SetTitle("Updated title")
+Button:SetDesc("Updated description")
+Button:Lock()
+Button:Unlock()
+Button:Destroy()
+```

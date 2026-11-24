@@ -1,53 +1,16 @@
 ---
 title: Tag
-description: Creating Tag
+description: Add compact status labels to the window header.
+icon: Tags
 ---
 
-import { TypeTable } from 'fumadocs-ui/components/type-table';
+Add a tag to the window to show a version, state, or other small piece of metadata:
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-
-import Banner from '@/components/banner'
-
-<Banner 
-    alt="Banner" 
-    src="/banners/tag.jpg" 
-/>
-
-
-
-## Creating Tag
 ```luau
 Window:Tag({
-    Title = "v1.6.6",
-    Icon = "github",
-    Color = Color3.fromHex("#30ff6a"),
-    Radius = 0, -- from 0 to 13
+    Title = "Stable",
+    Color = Color3.fromHex("#a1a1aa"),
 })
 ```
 
-
-
-
-<Accordion type="single"  collapsible>
-    <AccordionItem value="item-1">
-        <AccordionTrigger>API</AccordionTrigger>
-        <AccordionContent>
-            ## Tag Options
-            
-            <TypeTable
-              type={{
-                Title:  { type: 'string',  required: true,   description: 'Title of the Tag.',  default: "Tag" },
-                Icon:   { type: 'string',  required: false,  description: 'Icon of the Tag.',   default: "nil" },
-                Color:  { type: 'Color3',  required: false,  description: 'Tag Color.',         default: 'Color3.fromHex("#315dff")' },
-                Radius: { type: 'number',  required: false,  description: 'Tag Radius (0–13)',  default: '13' },
-              }}
-            />
-        </AccordionContent>
-    </AccordionItem>
-</Accordion>
+Use brief labels and restrained colors so tags remain secondary to the window title.

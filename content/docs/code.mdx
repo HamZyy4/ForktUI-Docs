@@ -1,63 +1,24 @@
 ---
-title: Code
-description: Creating Code and Editing it
-icon: Terminal
+title: Code block
+description: Display copyable code or text inside a tab.
+icon: Code
 ---
 
-import { TypeTable } from 'fumadocs-ui/components/type-table';
-
-
-
-## Creating Code 
-
-```lua
+```luau
 local Code = Tab:Code({
-    Title = "Code",
-    Code = [[print("Hello World!")]]
+    Title = "Example source",
+    Code = [[
+local message = "Hello from ForktUI"
+print(message)
+]],
+    CodeSize = 16,
+    CanCopied = true,
+    OnCopy = function()
+        print("Code copied")
+    end,
 })
+
+Code:SetCode('print("Updated source")')
 ```
 
-### Set Code
-    ```lua
-    Code:SetCode([[print("New code!")]])
-    ```
-
-### Destroy Code
-    ```lua
-    Code:Destroy()
-    ```
-
-### `:OnCopy()`
-    ```lua
-    Code:OnCopy(function()
-        print("Code '" .. Code.Title .. '" Copied!")
-    end)
-    ```
-
-<hr/>
-
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-
-
-<Accordion type="single"  collapsible>
-    <AccordionItem value="item-1">
-        <AccordionTrigger>API</AccordionTrigger>
-        <AccordionContent>
-            ## Code Options
-            
-            <TypeTable
-              type={{
-                Title:  { type: 'string',   required: true,  description: 'Title of the Code.',  default: "Code" },
-                Code:   { type: 'string',   required: true,  description: 'Code.',               default: "nil" },
-              }}
-            />
-            
-        </AccordionContent>
-    </AccordionItem>
-</Accordion>
+`CanCopied` controls the copy action and defaults to enabled. `OnCopy` is called after the copy handler runs. `SetCode()` replaces the displayed source text.

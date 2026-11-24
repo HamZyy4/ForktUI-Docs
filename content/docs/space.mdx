@@ -1,18 +1,15 @@
 ---
 title: Space
-description: Creating Space
+description: Add consistent spacing between elements.
 icon: Space
 ---
 
-## Creating Space
-
-Space can be created in the [Window](/docs/window) (next to the Tabs) and in the [Tab](/docs/tab) (inside)
+`Space` uses `Columns` to determine the number of spacing units. The element is horizontal in regular tab content and adapts to the layout direction in groups and horizontal stacks.
 
 ```luau
-Window:Space()
+Tab:Space({
+    Columns = 2,
+})
 ```
 
-```luau
-Tab:Space()
-```
-
+Use one spacer with an intentional size rather than stacking several empty elements.

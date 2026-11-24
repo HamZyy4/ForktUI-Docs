@@ -1,68 +1,33 @@
 ---
 title: Dialog
-description: Dialog component for WindUI
-icon: MessageSquareText
+description: Present a focused prompt with optional actions.
+icon: MessageSquare
 ---
 
-import { TypeTable } from 'fumadocs-ui/components/type-table';
-
-## Creating Dialog
+Create a dialog from a window. The dialog opens when it is created:
 
 ```luau
 local Dialog = Window:Dialog({
-    Icon = "bird",
-    Title = "Dialog Title",
-    Content = "Content Text",
+    Title = "Discard changes?",
+    Content = "Your unsaved changes will not be kept.",
+    Width = 340,
     Buttons = {
         {
-            Title = "Confirm",
+            Title = "Cancel",
+            Variant = "Tertiary",
             Callback = function()
-                print("Confirmed!")
+                print("Cancelled")
             end,
         },
         {
-            Title = "Cancel",
+            Title = "Discard",
+            Variant = "Primary",
             Callback = function()
-                print("Cancelled!")
+                print("Discarded")
             end,
         },
     },
 })
 ```
 
-### Show Dialog
-    ```luau
-    Dialog:Show()
-    ```
-
-### Close Dialog
-    ```luau
-    Dialog:Close()
-    ```
-
-<hr/>
-
-# API
-
-## Dialog Options
-
-<TypeTable
-  type={{
-    Title:       { type: 'string',  required: true,  description: 'Title text of the dialog.',                        default: "Dialog" },
-    Icon:        { type: 'string',  required: false, description: 'Dialog Icon',                                      default: "nil" },
-    IconThemed:  { type: 'boolean', required: false, description: 'Makes custom icon themed',                         default: "false" },
-    Content:     { type: 'string',  required: true,  description: 'Main description inside the dialog.',              default: "nil" },
-    Buttons:     { type: 'table',   required: true,  description: 'List of buttons with their titles and callbacks.', default: "{}" },
-  }}
-/>
-
-## Button Options (inside dialog)
-
-<TypeTable
-  type={{
-    Title:    { type: 'string',   required: true,  description: 'Button title text.',                        default: "Button" },
-    Icon:     { type: 'string',   required: false, description: 'Lucide icon for the Button.',               default: "nil" },
-    Variant:  { type: 'string',   required: false, description: 'Variants: (Primary, Secondary, Tertiary)',  default: "Primary" },
-    Callback: { type: 'function', required: false, description: 'Function executed when button is clicked.', default: "nil" },
-  }}
-/>
+Each button supports `Title`, `Icon`, `Callback`, and `Variant`. Keep the message short and make the action labels unambiguous. The dialog component is created by `Window:Dialog()` in `src/components/window/Init.lua`.

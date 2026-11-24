@@ -1,66 +1,40 @@
 ---
 title: Installation
-description: Install WindUI source and Edit it
+description: Add ForktUI to a Roblox project or a local Rojo workflow.
 icon: Download
 ---
 
-import { Step, Steps } from 'fumadocs-ui/components/steps';
+## Get the source
 
+Clone the library repository and initialize its companion icon submodule:
 
-A Tutorial on how to install WindUI Source on your device and edit it. 
-
-<Steps>
-
-<Step>
-### Clone Repository
-Clone the [WindUI](https://github.com/Footagesus/WindUI/) repository from GitHub to your local machine.
 ```bash
-git clone https://github.com/Footagesus/WindUI.git
+git clone --recurse-submodules https://github.com/HamZyy4/ForktUI.git
+cd ForktUI
+git submodule update --init --recursive
 ```
-This command will create a copy of the WindUI project in your working directory, allowing you to modify and customize it as needed.
-</Step>
 
-<Step>
-### Install Dependencies
-Navigate to the cloned directory and install npm packages:
-You need [aftman](https://github.com/LPGhatguy/aftman) to install darklua
+The `Icons` submodule provides the local icon pack ModuleScripts used by ForktUI.
+
+## Rojo workflow
+
+The project mapping exposes the library under `ReplicatedStorage.ForktUI`. Build or serve the project with your normal Rojo workflow, then require the `Init` ModuleScript from a client-side LocalScript:
+
+```luau
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ForktUI = require(ReplicatedStorage:WaitForChild("ForktUI"):WaitForChild("Init"))
+```
+
+The companion icon submodule is required locally by the library. A standard Rojo deployment needs no additional server-side icon bridge.
+
+## Build the distributable
+
+The repository uses Aftman to install Rojo, DarkLua, and Lune. The build script generates `build/package.lua` from `package.json` and writes the bundled library to `dist/main.lua`.
+
 ```bash
-cd WindUI
-
 npm install
 aftman install
+npm run build
 ```
 
-
-</Step>
-
-<Step>
-### Build WindUI
-Once everything is set up, you can build WindUI:
-
-- For development, run:
-    ```bash
-    npm run dev
-    ```
-
-- For production build, run:
-    ```bash
-    npm run build
-    ```
-
-- For development live-build, run:
-    ```bash
-    npm run live-build
-    ```
-    
-    This will start a local build server at http://localhost:8642.
-    It automatically build your changes and serves a ready-to-use development bundle, so you can instantly test it in Roblox without manual rebuilding.
-    
-    Usage in Roblox (exploit environment):
-    ```luau
-    loadstring(game:HttpGet("http://localhost:8642/dist/main.lua"))()
-    ```
-
-</Step>
-
-</Steps>
+See [Load ForktUI](/docs/load-forktui) for the raw loader example.

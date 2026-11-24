@@ -1,30 +1,47 @@
 ---
 title: Icons
-description: What icons WindUI uses and how to use them.
+description: Use built-in icon families and custom asset icons.
 icon: Images
 ---
 
-## Icons
+ForktUI's companion icon repository contains these packs:
 
-### Icons that are used in WindUI:
-- [Lucide Icons](https://lucide.dev)
-- [Geist Icons](https://vercel.com/geist/icons)
-- [Craft Icons](https://www.figma.com/community/file/1415718327120418204) (figma community)
+- Lucide
+- Solar
+- Craft
+- Geist
+- SF Symbols
+- Gravity UI
 
-### How to use them
-You can use it like this:
+## Use a named icon
 
 ```luau
--- lucide
-local Icon = "lucide:bird"
+local Window = ForktUI:CreateWindow({
+    Title = "My Hub",
+    Icon = "layout-dashboard",
+})
 
--- geist
-local Icon = "geist:window"
-
--- craft
-local Icon = "craft:macbook-stroke"
+local Tab = Window:Tab({
+    Title = "General",
+    Icon = "lucide:house",
+})
 ```
 
-Source of icons: https://github.com/Footagesus/Icons
+A namespace prefix can select a specific pack, for example `solar:home` or `geist:window`.
 
-More icons will be soon
+## Add custom icons
+
+```luau
+ForktUI.Creator.AddIcons("custom", {
+    dashboard = 1234567890,
+})
+
+local Tab = Window:Tab({
+    Title = "Custom",
+    Icon = "custom:dashboard",
+})
+```
+
+The `Icons` repository is included as the `src/Icons` submodule. In a normal Rojo project, ForktUI requires the icon pack ModuleScripts locally and needs no additional server script or RemoteFunction. Executor-based loading retrieves the companion pack modules from the repository raw files and requires a runtime that supports HTTP requests and `loadstring`.
+
+Icon pack source: [HamZyy4/Icons](https://github.com/HamZyy4/Icons). The original icon families remain subject to their own licenses and attribution requirements.

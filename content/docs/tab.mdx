@@ -1,61 +1,38 @@
 ---
 title: Tab
-description: Creating Tab
-icon: TableOfContents
+description: Organize controls into navigable tabs.
+icon: PanelsTopLeft
 ---
 
-import { TypeTable } from 'fumadocs-ui/components/type-table';
-
-import Banner from '@/components/banner'
-
-<Banner 
-    alt="Banner" 
-    src="/banners/tab.jpg" 
-/>
-
-
-## Creating Tab
+## Create a tab
 
 ```luau
-local Tab = Window:Tab({
-    Title = "Tab Title",
-    Icon = "bird", -- optional
-    Locked = false,
+local MainTab = Window:Tab({
+    Title = "General",
+    Icon = "house",
+    Desc = "Common settings",
 })
 ```
 
-### Select Tab
+Tabs can include a title, description, icon, and locked state. Use a short title so the navigation remains easy to scan, especially on narrow screens.
+
+## Add elements
+
 ```luau
-Tab:Select() -- Select Tab
+MainTab:Button({
+    Title = "Example action",
+    Callback = function()
+        print("Action triggered")
+    end,
+})
+
+MainTab:Toggle({
+    Title = "Enable feature",
+    Default = false,
+    Callback = function(value)
+        print("Enabled:", value)
+    end,
+})
 ```
 
-
-<hr/>
-
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-
-<Accordion type="single"  collapsible>
-    <AccordionItem value="item-1">
-        <AccordionTrigger>API</AccordionTrigger>
-        <AccordionContent>
-            
-            ## Tab Options
-            
-            <TypeTable
-              type={{
-                Title:      { type: 'string',  required: true,  default: "Tab",       description: 'Title of the Tab.' },
-                Icon:       { type: 'string',  required: false, default: "nil",       description: 'Lucide or rbxassetid icon or URL for the Tab.' },
-                IconThemed: { type: 'boolean', required: false, default: "false",     description: 'Makes custom icon themed' }, 
-                Locked:     { type: 'boolean', required: false, default: "false",     description: 'Locking the Tab.' },
-              }}
-            />
-            
-        </AccordionContent>
-    </AccordionItem>
-</Accordion>
+Each tab exposes element methods such as `Button`, `Toggle`, `Dropdown`, `Input`, `Slider`, `Colorpicker`, `Keybind`, and `Paragraph`. See the individual element pages for their configuration options.

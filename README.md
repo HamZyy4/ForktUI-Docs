@@ -1,15 +1,9 @@
-# WindUI Documentation
-> Official Documentation of WindUI Library 
+# ForktUI Documentation
 
+Documentation for the ForktUI Roblox interface library, maintained by **sukitovone**.
 
-Created with [Fumadocs](https://github.com/fuma-nama/fumadocs).
+- Library: https://github.com/HamZyy4/ForktUI
+- Icon packs: https://github.com/HamZyy4/Icons
+- Published docs: https://hamzyy4.github.io/ForktUI-Docs
 
-
-# Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs
-
-- [WindUI Library](https://github.com/Footagesus/WindUI) - Official WindUI repository 
+Built with [Next.js](https://nextjs.org/) and [Fumadocs](https://fumadocs.dev/).

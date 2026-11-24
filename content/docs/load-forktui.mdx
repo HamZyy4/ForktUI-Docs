@@ -1,0 +1,33 @@
+---
+title: Load ForktUI
+description: Load the bundled library from the repository or a release asset.
+icon: Braces
+---
+
+## Load the current main-branch build
+
+```luau
+local ForktUI = loadstring(game:HttpGet(
+    "https://raw.githubusercontent.com/HamZyy4/ForktUI/main/dist/main.lua"
+))()
+```
+
+This URL tracks the repository's `main` branch. It changes when a new build is committed, so pin a commit or release URL for projects that require repeatable deployments.
+
+## Create a window
+
+```luau
+local Window = ForktUI:CreateWindow({
+    Title = "My Hub",
+    Icon = "layout-dashboard",
+    Theme = "Dark",
+    Size = UDim2.fromOffset(580, 460),
+    ToggleKey = Enum.KeyCode.RightShift,
+})
+```
+
+## Notes
+
+- The bundled file is generated from `src/` by the repository build script.
+- The library expects a client context for creating and interacting with UI.
+- A raw `main` URL is convenient for development; use a pinned source revision for stable production behavior.

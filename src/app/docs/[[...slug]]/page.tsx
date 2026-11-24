@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { getMDXComponents } from '@/mdx-components';
 
-export default async function Page(props: {
+export default async function DocumentationPage(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
   const params = await props.params;
@@ -17,7 +17,6 @@ export default async function Page(props: {
   if (!page) notFound();
 
   const MDXContent = page.data.body;
-
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
       <DocsTitle>{page.data.title}</DocsTitle>
@@ -25,7 +24,6 @@ export default async function Page(props: {
       <DocsBody>
         <MDXContent
           components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
             a: createRelativeLink(source, page),
           })}
         />
@@ -34,7 +32,7 @@ export default async function Page(props: {
   );
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return source.generateParams();
 }
 

@@ -1,0 +1,42 @@
+---
+title: Key system
+description: Configure a key prompt before creating the window.
+icon: KeyRound
+---
+
+`KeySystem` is configured as part of `CreateWindow()`. ForktUI can validate a saved key with a custom callback or use one of the service adapters in the source.
+
+## Static key example
+
+```luau
+local Window = ForktUI:CreateWindow({
+    Title = "My Hub",
+    Theme = "Dark",
+    KeySystem = {
+        Key = "YOUR-KEY-HERE",
+        SaveKey = true,
+        URL = "https://example.com/get-key",
+        Title = "Access required",
+        Note = "Enter your access key to continue.",
+        Thumbnail = {
+            Image = "rbxassetid://YOUR_IMAGE_ID",
+            Title = "Member access",
+        },
+    },
+})
+```
+
+## Custom validator
+
+```luau
+KeySystem = {
+    KeyValidator = function(enteredKey)
+        return enteredKey == expectedKey
+    end,
+    SaveKey = false,
+}
+```
+
+The access panel uses a compact graphite layout and is shown before the main window when validation is required. The optional `Thumbnail` image is displayed above the form. The Exit action cancels creation of the window, and an empty key is rejected before validation. File-based key saving depends on the runtime's `isfile`, `readfile`, `writefile`, and folder APIs; unsupported filesystem calls fail safely. Keep validation secrets out of client-side scripts: values embedded in a client script can be inspected by users.
+
+For all service-specific adapter fields, consult `src/components/KeySystem.lua` and `src/Init.lua` in the repository.

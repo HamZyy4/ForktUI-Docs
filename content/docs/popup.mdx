@@ -1,79 +1,42 @@
 ---
 title: Popup
-description: Creating Popup
-icon: Captions
+description: Display contextual information in a compact popup.
+icon: PanelTop
 ---
 
-import { TypeTable } from 'fumadocs-ui/components/type-table';
-
-import Banner from '@/components/banner'
-
-<Banner 
-    alt="Banner" 
-    src="/banners/popup.jpg" 
-/>
-
-
-## Creating Popup
+Use `ForktUI:Popup()` for a popup that is not attached to a tab:
 
 ```luau
-WindUI:Popup({
-    Title = "Popup Title",
-    Icon = "info",
-    Content = "Popup content",
-    Buttons = {
-        {
-            Title = "Cancel",
-            Callback = function() end,
-            Variant = "Tertiary",
-        },
-        {
-            Title = "Continue",
-            Icon = "arrow-right",
-            Callback = function() end,
-            Variant = "Primary",
-        }
-    }
+ForktUI:Popup({
+    Title = "Quick information",
+    Content = "Your settings have been saved.",
+    Icon = "check-circle",
 })
 ```
 
+Buttons are optional. Add them when the popup needs an explicit action:
 
-<hr/>
+```luau
+ForktUI:Popup({
+    Title = "Confirm action",
+    Content = "Continue with this change?",
+    Buttons = {
+        {
+            Title = "Cancel",
+            Variant = "Tertiary",
+            Callback = function()
+                print("Cancelled")
+            end,
+        },
+        {
+            Title = "Continue",
+            Variant = "Primary",
+            Callback = function()
+                print("Confirmed")
+            end,
+        },
+    },
+})
+```
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
-
-<Accordion type="single"  collapsible>
-    <AccordionItem value="item-1">
-        <AccordionTrigger>API</AccordionTrigger>
-        <AccordionContent>
-            ## Popup Options
-            
-            <TypeTable
-              type={{
-                Title:      { type: 'string',  required: true,  default: 'Popup',   description: 'Title of the Popup.' },
-                Icon:       { type: 'string',  required: false, default: 'nil',     description: 'Lucide or rbxassetid or URL icon for the Popup.' },
-                IconThemed: { type: 'boolean', required: false, default: "false",   description: 'Makes custom icon themed' },
-                Content:    { type: 'string',  required: true,  default: 'Content', description: 'Content for information or warnings.' },
-                Buttons:    { type: 'table',   required: true,  default: '{}',      description: 'List of button objects for the Popup.' },
-              }}
-            />
-            
-            ## Button Options (inside Popup)
-            
-            <TypeTable
-              type={{
-                Title:    { type: 'string',   required: true,  default: 'Button', description: 'Title of the Button.' },
-                Icon:     { type: 'string',   required: false, default: 'nil', description: 'Lucide icon for the Button.' },
-                Variant:  { type: 'string',   required: true,  default: 'Primary', description: 'Style variant: Primary, Secondary, or Tertiary.' },
-                Callback: { type: 'function', required: false, default: 'nil', description: 'Function to execute when the button is clicked.' },
-              }}
-            />
-            
-        </AccordionContent>
-    </AccordionItem>
-</Accordion>
+The popup also accepts `Thumbnail` image data. Review `src/components/popup/Init.lua` for the full configuration handled by the current source version.
