@@ -1,27 +1,21 @@
 ---
 title: About ForktUI
-description: A practical starting point for the ForktUI Roblox UI library.
+description: A practical guide to the ForktUI Roblox interface library.
 icon: BookOpen
 ---
 
-ForktUI is a themeable UI library for Roblox projects, built around a compact Luau API. Create a window, add tabs, then compose controls and content elements inside each tab.
+ForktUI is a modular Luau interface toolkit for Roblox client experiences. Build a window, organize navigation with tabs and sections, then compose controls and content components inside each view.
 
-## What is included
+## Library capabilities
 
-- **Window system** — resizable layouts, sidebar navigation, topbar actions, and open-button configuration.
-- **Interface elements** — buttons, toggles, dropdowns, inputs, sliders, color pickers, keybinds, and more.
-- **Theme support** — built-in themes, custom palettes, gradient values, and theme tags.
-- **Developer utilities** — notifications, dialogs, popups, localization, and configuration persistence.
-- **Icon packs** — named icons from the companion ForktUI Icons repository.
+- **Window and navigation:** a resizable window shell, sidebar, topbar actions, search control, and optional floating open button.
+- **User profile card:** a clickable sidebar account card with a Roblox profile summary and anonymous display mode.
+- **Controls:** buttons, toggles, dropdowns, text inputs, sliders, color pickers, and keybinds.
+- **Content and layout:** paragraphs, code blocks, images, viewports, progress bars, sections, groups, horizontal stacks, and vertical stacks.
+- **Feedback and overlays:** dialogs, popups, notifications, and tooltips.
+- **Customization:** themes, gradients, icon packs, localization, and optional config persistence.
 
-## Start here
-
-1. Follow the [installation guide](/docs/installation) for a source or Rojo workflow.
-2. Use the [loader guide](/docs/load-forktui) to load the built library.
-3. Create your first [window](/docs/window) and [tab](/docs/tab).
-4. Explore the [elements](/docs/button) and [theme guide](/docs/theme).
-
-## Minimal example
+## Start with the loader
 
 ```luau
 local ForktUI = loadstring(game:HttpGet(
@@ -29,15 +23,14 @@ local ForktUI = loadstring(game:HttpGet(
 ))()
 
 local Window = ForktUI:CreateWindow({
-    Title = "My Hub",
+    Title = "My Interface",
+    Author = "sukitovone",
     Theme = "Dark",
+    User = { Enabled = true },
 })
 
-local Tab = Window:Tab({
-    Title = "General",
-})
-
-Tab:Button({
+local MainTab = Window:Tab({ Title = "General" })
+MainTab:Button({
     Title = "Say hello",
     Callback = function()
         print("Hello from ForktUI")
@@ -45,5 +38,13 @@ Tab:Button({
 })
 ```
 
-> [!NOTE]
-> ForktUI is maintained by sukitovone. Review the changelog when updating, and test the interface in the target Roblox environment.
+The remote loader requires a client runtime that supports `loadstring` and HTTP retrieval. For a standard Roblox Studio project, use the [installation guide](/docs/installation) and its ModuleScript workflow.
+
+## Suggested reading path
+
+1. [Installation](/docs/installation) and [Load ForktUI](/docs/load-forktui)
+2. [Window options](/docs/window), [User profile card](/docs/user-profile), and [Tabs](/docs/tab)
+3. [Interface elements](/docs/button), [Themes](/docs/theme), and [Notifications](/docs/notification)
+4. [Configurations](/docs/configs), [Localization](/docs/localization), and [Key System](/docs/key-system)
+
+> ForktUI is maintained by **sukitovone**. Check the changelog and test your target client environment after updating the bundled library.

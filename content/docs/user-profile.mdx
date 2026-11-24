@@ -1,0 +1,65 @@
+---
+title: User profile card
+description: Display and interact with the local Roblox account in the window sidebar.
+icon: UserRound
+---
+
+## Enable the account card
+
+Set `User.Enabled` when creating the window. The card appears at the bottom of the sidebar.
+
+```luau
+local Window = ForktUI:CreateWindow({
+    Title = "My Interface",
+    User = {
+        Enabled = true,
+        Anonymous = false,
+    },
+})
+```
+
+## Profile popup
+
+Selecting the card opens a profile summary for `Players.LocalPlayer`. The popup includes the Roblox headshot, display name, username, user ID, account age, membership type, and the public profile URL. The **Copy profile link** action uses `setclipboard` or `toclipboard` when the runtime provides one. Otherwise, the URL is shown in a notification for manual copying.
+
+## Anonymous mode
+
+```luau
+Window.User:SetAnonymous(true)  -- Mask the name and show an anonymous identity.
+Window.User:SetAnonymous(false) -- Restore the local player's identity.
+```
+
+When anonymous mode is active, the profile popup does not reveal the local account details.
+
+## Enable and disable the card
+
+```luau
+Window.User:Enable()
+Window.User:Disable()
+```
+
+These methods show or hide the account card and update the sidebar's available height.
+
+## Selection callback
+
+A custom callback can run when the card is selected. The built-in profile popup still opens.
+
+```luau
+local Window = ForktUI:CreateWindow({
+    Title = "My Interface",
+    User = {
+        Enabled = true,
+        Callback = function(player)
+            if player then
+                print(player.Name, player.UserId)
+            else
+                print("Anonymous mode is active")
+            end
+        end,
+    },
+})
+```
+
+The callback receives the local `Player` object. It receives `nil` while `Anonymous` is enabled.
+
+`SetAnonymous(value)` expects a boolean. It returns the user configuration table on success, or `false` with an error message when the argument is not a boolean. The headshot is fetched asynchronously and reused by the profile popup once available.

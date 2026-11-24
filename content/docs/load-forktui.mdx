@@ -1,10 +1,12 @@
 ---
 title: Load ForktUI
-description: Load the bundled library from the repository or a release asset.
+description: Load the generated Roblox library bundle or require its ModuleScript from a Studio project.
 icon: Braces
 ---
 
-## Load the current main-branch build
+## Loader example
+
+The raw loader below tracks the latest `dist/main.lua` build on the `main` branch.
 
 ```luau
 local ForktUI = loadstring(game:HttpGet(
@@ -12,22 +14,41 @@ local ForktUI = loadstring(game:HttpGet(
 ))()
 ```
 
-This URL tracks the repository's `main` branch. It changes when a new build is committed, so pin a commit or release URL for projects that require repeatable deployments.
-
-## Create a window
+Copy the example as-is, then create a window:
 
 ```luau
 local Window = ForktUI:CreateWindow({
-    Title = "My Hub",
-    Icon = "layout-dashboard",
+    Title = "My Interface",
+    Author = "sukitovone",
     Theme = "Dark",
-    Size = UDim2.fromOffset(580, 460),
     ToggleKey = Enum.KeyCode.RightShift,
+})
+
+local MainTab = Window:Tab({ Title = "General", Icon = "house" })
+MainTab:Button({
+    Title = "Test ForktUI",
+    Callback = function()
+        print("ForktUI is ready")
+    end,
 })
 ```
 
-## Notes
+## Source revision and release stability
 
-- The bundled file is generated from `src/` by the repository build script.
-- The library expects a client context for creating and interacting with UI.
-- A raw `main` URL is convenient for development; use a pinned source revision for stable production behavior.
+The `main` URL updates when the project publishes a new bundle. Pin a reviewed commit or release asset when a project needs a fixed version. The bundle should only be used after its GitHub Actions build has completed successfully.
+
+## Roblox Studio installation
+
+A normal Roblox Studio experience should use the ModuleScript workflow instead of a remote `loadstring` loader. Clone the repository with its icon submodule, build or serve it with Rojo, place the `ForktUI` ModuleScript in `ReplicatedStorage`, then require it from a client-side `LocalScript`:
+
+```luau
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ForktUI = require(ReplicatedStorage:WaitForChild("ForktUI"):WaitForChild("Init"))
+```
+
+## Runtime notes
+
+- The loader requires a client runtime with `loadstring` and HTTP retrieval support.
+- Create and update the UI from a client context.
+- Filesystem-backed config persistence and clipboard actions are optional runtime capabilities; ForktUI checks for their availability.
+- The raw `main` URL is convenient for development. Use a pinned source revision for repeatable distribution.

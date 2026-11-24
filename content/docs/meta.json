@@ -11,6 +11,7 @@
     "load-forktui",
     "---Foundations---",
     "window",
+    "user-profile",
     "tab",
     "tabsection",
     "theme",

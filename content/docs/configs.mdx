@@ -1,40 +1,80 @@
 ---
-title: Configs
-description: Save and restore registered element values.
+title: Configurations
+description: Save and restore flagged element values using supported client filesystem APIs.
 icon: Save
 ---
 
-## Get the config manager
+## Availability
+
+The config manager is optional. `Window.ConfigManager` is initialized only when a window has a `Folder` and the runtime provides the required filesystem functions. It is intentionally unavailable in standard Roblox Studio. Check its type before calling config methods.
 
 ```luau
-local ConfigManager = Window.ConfigManager
-local config = ConfigManager:CreateConfig("profile")
-```
-
-## Register elements
-
-Set a `Flag` on supported elements, or register an element manually:
-
-```luau
-local Toggle = Tab:Toggle({
-    Title = "Enable option",
-    Flag = "EnableOption",
-    Callback = function(value)
-        print(value)
-    end,
+local Window = ForktUI:CreateWindow({
+    Title = "My Interface",
+    Folder = "MyInterface",
 })
 
-config:Register("EnableOption", Toggle)
+local ConfigManager = Window.ConfigManager
+if type(ConfigManager) ~= "table" then
+    warn("Local config storage is unavailable")
+    return
+end
 ```
 
-## Save and load
+## Flag elements
+
+Give every persistable element a unique `Flag`. ForktUI currently provides parsers for `Colorpicker`, `Dropdown`, `Input`, `Keybind`, `Slider`, and `Toggle`.
 
 ```luau
-config:Save()
-config:Load()
-config:Delete()
+local MainTab = Window:Tab({ Title = "Settings" })
 
-local files = ConfigManager:AllConfigs()
+MainTab:Toggle({
+    Title = "Enable option",
+    Flag = "EnableOption",
+    Value = false,
+})
+
+MainTab:Slider({
+    Title = "Volume",
+    Flag = "Volume",
+    Value = { Min = 0, Max = 100, Default = 50 },
+})
 ```
 
-Config persistence depends on the runtime's supported file APIs and the configured folder. Verify those capabilities in the environment where the UI is running.
+## Create, save, and load
+
+```luau
+local Config = ConfigManager:Config("default")
+
+local saved, saveResult = Config:Save()
+if not saved then
+    warn("Save failed:", saveResult)
+end
+
+local loaded, loadResult = Config:Load()
+if not loaded then
+    warn("Load failed:", loadResult)
+end
+```
+
+`Save()` and `Load()` return a success boolean followed by the saved data or an error message. Create the flagged elements before loading so the stored values can be applied to their controls.
+
+## Other methods
+
+```luau
+Config:Set("layout", "compact")
+print(Config:Get("layout"))
+Config:SetAutoLoad(true)
+print(Config:GetData())
+
+local names = ConfigManager:AllConfigs()
+local automatic = ConfigManager:GetAutoLoadConfigs()
+local existing = ConfigManager:GetConfig("default")
+
+Config:Delete()
+ConfigManager:DeleteConfig("default")
+```
+
+`ConfigManager:SetPath("custom/folder")` changes the local config directory when the runtime has folder APIs. Config names are normalized to safe filename characters. Use unique names and flags.
+
+> Local config files are client-side preferences, not secure storage. Do not store passwords, access tokens, private keys, or authorization decisions in them. Use server-side persistence and validation for game data that must be trusted.

@@ -1,49 +1,55 @@
 ---
 title: Window
-description: Create and configure the main ForktUI interface window.
+description: Configure the main ForktUI interface, navigation, and window behavior.
 icon: AppWindow
 ---
 
 ## Create a window
 
+`CreateWindow()` creates the main client interface. A single ForktUI instance manages one active window at a time.
+
 ```luau
 local Window = ForktUI:CreateWindow({
-    Title = "My Hub",
-    Icon = "layout-dashboard",
+    Title = "My Interface",
     Author = "sukitovone",
-    Folder = "MyHub",
-
-    Size = UDim2.fromOffset(580, 460),
-    MinSize = Vector2.new(560, 350),
-    MaxSize = Vector2.new(850, 560),
-    ToggleKey = Enum.KeyCode.RightShift,
+    Icon = "layout-dashboard",
+    Folder = "MyInterface",
     Theme = "Dark",
-    Transparent = true,
+    Size = UDim2.fromOffset(640, 460),
+    ToggleKey = Enum.KeyCode.RightShift,
     Resizable = true,
-    SideBarWidth = 200,
-    HideSearchBar = false,
-    ScrollBarEnabled = true,
+    AutoScale = true,
+    User = {
+        Enabled = true,
+        Anonymous = false,
+    },
 })
 ```
 
-## Common options
+## Window options
 
-| Option | Type | Purpose |
+| Option | Type | Default / behavior |
 | --- | --- | --- |
-| `Title` | `string` | Window title. |
+| `Title` | `string` | Window title. Defaults to `ForktUI`. |
+| `Author` | `string` | Small attribution below the title. Defaults to `sukitovone`. |
 | `Icon` | `string` | Named icon or supported image reference. |
-| `Author` | `string` | Small author label in the title area. Defaults to `sukitovone`. |
-| `Folder` | `string` | Folder name used by supported persistence features. |
-| `Size` | `UDim2` | Initial window size. |
-| `MinSize` / `MaxSize` | `Vector2` | Resize bounds. |
-| `ToggleKey` | `Enum.KeyCode` | Key used to toggle the window. |
-| `Theme` | `string` | Name of the theme to apply. |
-| `Transparent` | `boolean` | Enables the transparent window style. |
-| `Resizable` | `boolean` | Allows the user to resize the window. |
-| `SideBarWidth` | `number` | Sidebar width. |
-| `HideSearchBar` | `boolean` | Hides the search control. |
-| `ScrollBarEnabled` | `boolean` | Controls the sidebar scrollbar. |
-| `NewElements` | `boolean` | Uses the refreshed control spacing and layout; enabled by default. Set `false` to use the legacy compact element layout. |
+| `IconSize` | `number` | Window icon size. |
+| `Folder` | `string` | Directory name used by optional config persistence. |
+| `Theme` | `string` | Built-in or registered theme name. Falls back to `Dark` for an unknown name. |
+| `Size` | `UDim2` | Initial size. Defaults to 720 × 520 pixels before UI scaling. |
+| `MinSize` / `MaxSize` | `Vector2` | Resize bounds. Defaults to 540 × 360 and 960 × 680. |
+| `Resizable` | `boolean` | Enables the resize handle. Defaults to `true`. |
+| `AutoScale` | `boolean` | Fits the interface to the current viewport and re-evaluates when the viewport changes. Defaults to `true`. |
+| `ToggleKey` | `Enum.KeyCode` | Keyboard shortcut for toggling the window. |
+| `SideBarWidth` | `number` | Sidebar width in pixels. Defaults to 184. |
+| `HideSearchBar` | `boolean` | Hides the sidebar search control when `true`. |
+| `ScrollBarEnabled` | `boolean` | Enables the custom sidebar scroll indicator. |
+| `Transparent` | `boolean` | Enables the transparent window appearance. |
+| `Acrylic` | `boolean` | Enables the optional acrylic background effect. |
+| `NewElements` | `boolean` | Uses the refreshed element spacing. Defaults to `true`; set `false` for the legacy compact layout. |
+| `HidePanelBackground` | `boolean` | Hides the content panel surface. |
+| `OpenButton` | `table` | Optional mobile floating open button configuration. |
+| `User` | `table` | Optional account card configuration; see [User profile card](/docs/user-profile). |
 
 ## Window actions
 
@@ -51,15 +57,37 @@ local Window = ForktUI:CreateWindow({
 Window:Open()
 Window:Close()
 Window:Toggle()
+Window:Destroy()
 Window:SetToggleKey(Enum.KeyCode.H)
-Window:SetBackgroundImage("rbxassetid://123456789")
-Window:SetBackgroundImageTransparency(0.4)
-Window:IsResizable(false)
 Window:SetTitle("Updated title")
 Window:SetAuthor("sukitovone")
+Window:SetBackgroundImage("rbxassetid://123456789")
+Window:SetBackgroundImageTransparency(0.4)
+Window:SetPanelBackground(true)
+Window:SetUIScale(0.9)
+Window:SetToTheCenter()
 ```
 
-`NewElements` is enabled by default in ForktUI and selects the refreshed control layout. Set `NewElements = false` to opt into the older compact element spacing. `ForktUI:GetWindowSize()` returns the active window's `UDim2` size, or `nil` before a window is created.
+`Window:Destroy()` closes the interface and disconnects library-owned signals. `ForktUI:GetWindowSize()` returns the current `UDim2` window size, or `nil` before a window is created.
+
+## User card
+
+The optional sidebar account card is enabled with `User.Enabled = true`. Clicking it opens the local Roblox account summary. It displays a headshot, display name, username, user ID, account age, and profile URL. Set `Anonymous = true` to mask the identity shown by the card.
+
+```luau
+local Window = ForktUI:CreateWindow({
+    Title = "My Interface",
+    User = {
+        Enabled = true,
+        Anonymous = false,
+        Callback = function(player)
+            print("Account card selected:", player.Name)
+        end,
+    },
+})
+```
+
+`Callback` is optional. The default profile popup remains available when a callback is supplied. The callback receives the local `Player` object, or `nil` while anonymous mode is enabled.
 
 ## Open button
 
@@ -73,13 +101,14 @@ Window:EditOpenButton({
 })
 ```
 
-## Topbar buttons
+## Topbar actions
 
 ```luau
 Window:DisableTopbarButtons({ "Close", "Minimize" })
+
 Window:CreateTopbarButton("Help", "circle-help", function()
-    print("Help clicked")
+    print("Help selected")
 end, 900)
 ```
 
-For access control, see [Key System](/docs/key-system).
+For key validation flows, see [Key System](/docs/key-system). For saved element values, see [Configs](/docs/configs).
